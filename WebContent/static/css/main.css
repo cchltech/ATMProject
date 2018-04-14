@@ -1,0 +1,23 @@
+.main{
+	margin: 0 auto;
+	width: 80%;
+}
+.top{
+	margin-top: 20px;
+	padding-top: 50px;
+	padding-bottom: 30px;
+	padding-left: 50px;
+	padding-right: 50px;
+	background: rgba(173,216,230,0.8);
+}
+.main_information_top{
+	margin: 0 auto;			
+	height: 100px;
+	padding-top: 10px;
+}
+.main_body{
+	background: rgba(225,255,255,0.8);
+	height: 600px; 
+	padding-right: 50px;
+	padding-left: 50px;
+}

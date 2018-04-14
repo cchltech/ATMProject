@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class DatabaseUtil {
 	private static final String url="jdbc:mysql://localhost:3306/one?" 
-			+"useSSL=true&user=root&password=Cqh999&useUnicode=true&characterEncoding=UTF8";
+			+"useSSL=true&user=root&password=17876253432&useUnicode=true&characterEncoding=UTF8";
 	
 	protected static Statement s=null;
 	protected static ResultSet rs = null;
@@ -35,9 +35,9 @@ public class DatabaseUtil {
 	}
 	
 	/**
-	 * Ö´ÐÐ¶¯Ì¬SQLÓï¾ä
-	 * @param sql º¬ÓÐ²ÎÊýµÄ¶¯Ì¬SQLÓï¾ä¡£ 
-	 * @return ·µ»ØPreparedStatement¶ÔÏó
+	 * Ö´ï¿½Ð¶ï¿½Ì¬SQLï¿½ï¿½ï¿½
+	 * @param sql ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ì¬SQLï¿½ï¿½ä¡£ 
+	 * @return ï¿½ï¿½ï¿½ï¿½PreparedStatementï¿½ï¿½ï¿½ï¿½
 	 */
 	public static PreparedStatement executePS(String sql) throws Exception {
 		ps = getConn().prepareStatement(sql);

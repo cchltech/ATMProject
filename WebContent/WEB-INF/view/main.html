@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Your home page</title>
+	<meta charset="utf-8"> 
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+</head>
+<body style="background:url('static/image/bg2.jpg');">
+<div class="main">
+	<div class="top">
+		<div class="page-header">
+			<h1>Welcome!!!</h1>
+		</div>
+		<h2>Please select your operation.</h2>
+	</div>
+	<div class="main_body">
+		<div class="row" style="padding-top: 50px; height: 100%">
+			<div class="col-xs-2">
+				<h2>
+					<ul class="nav nav-pills nav-stacked" id="theTab">
+  						<li><a href="#information" data-toggle="tab">information</a></li>
+  						<li><a href="#deposit" data-toggle="tab">deposit</a></li>
+  						<li><a href="#withdrawals" data-toggle="tab">withdrawals</a></li>
+  						<li><a href="#transaction" data-toggle="tab">Transaction records</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="col-md-10" id="main" style="background: #FFF; height: 85%">
+				<div class="tab-content">
+					<div id="information" class="tab-pane fade">
+						<div class="main_information_top">
+							<h1 style="float: left;">my information</h1>					
+							<div class="btn-group btn-group-lg" style="float: right;">							
+    							<button type="button" class="btn btn-default">update your information</button>
+    							<button type="button" class="btn btn-default">update your password</button>
+							</div>
+						</div>	
+						<div>				
+							<h3>
+								name:BeiYi<br>
+								ID:10086<br>
+								phone:17876250000<br>
+								born:GuangDong ShanTou<br>
+								balance:546531656435468
+							</h3>
+						</div>
+					</div>
+					<div id="deposit" class="tab-pane fade">
+						<h1>input your money</h1>
+					</div>
+					<div id="withdrawals" class="tab-pane fade">
+						<h1>get your money</h1>
+					</div>
+					<div id="transaction">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
