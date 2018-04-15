@@ -41,6 +41,7 @@ public class UserDaoImpl implements UserDao {
 				if (!judgeFreezeTime(card)) {
 					// 账户已被冻结,不执行任何操作
 					System.out.println("账户已被冻结");
+					return 2;
 				}else {
 					// 账户尚未冻结
 					handleErrorTimes(card,1);// 输错密码次数加一
@@ -143,7 +144,7 @@ public class UserDaoImpl implements UserDao {
 		boolean judgement = false;// 默认账户未冻结
 		if (rs.next()) {
 			String time = rs.getString("freeze_time");
-			if (time==null) {
+			if (time==null || "".equals(time.trim())) {
 				// 账户未处于冻结状态,直接返回true
 				judgement = true;
 			}else {
@@ -255,7 +256,7 @@ public class UserDaoImpl implements UserDao {
 		String thisYear = Timer.getCurrentYear();
 		thisYear = thisYear + "0000000000";
 		System.out.println(thisYear);
-		String sql = "SELECT * FROM table_record WHERE card ='"+ card +"' and "+"record_number >= '"+thisYear+"'";
+		String sql = "SELECT * FROM table_record WHERE card ='"+ card +"' and "+"record_number >= '"+thisYear+"' order by time desc";
 		ResultSet rs = DatabaseUtil.executeQuery(sql);// 查找过去一年内的记录
 		while (rs.next()) {
 			RecordSheet recordSheet = new RecordSheet();

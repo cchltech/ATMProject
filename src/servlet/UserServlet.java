@@ -32,7 +32,6 @@ public class UserServlet extends HttpServlet {
      */
     public UserServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -45,22 +44,30 @@ public class UserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=utf-8");
 		String action = request.getParameter("action");// 获取前端的动作参数
 		response.setCharacterEncoding("GB2312");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-		response.setContentType("text/html;charset=utf-8");
+		//过滤操作
+        if (session.getAttribute("card")==null && !"login".equals(action)){
+            response.sendRedirect("/index");
+        }
 		// 处理登录操作
 		if ("login".equals(action)) {
 			String card = request.getParameter("card");
 			String password = request.getParameter("password");
-			try {
+            System.out.println("card:" + card + "  pass:" + password);
+            try {
 				login(request,response,card,password);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		else if ("main".equals(action) && session.getAttribute("card")!=null) {
+            request.getRequestDispatcher("/WEB-INF/view/main.html").forward(request,response);
+        }
 		// 处理显示用户信息操作
 		else if ("showMessage".equals(action)) {
 			String card = session.getAttribute("card").toString();
@@ -76,7 +83,7 @@ public class UserServlet extends HttpServlet {
 			String oldPassword = (String) session.getAttribute("password");// 获取session中存储的旧密码
 			String password1 = request.getParameter("password1");// 前端输入的原密码
 			String newPassword = request.getParameter("newPassword");// 前端输入的新密码
-			
+			JSONObject object;
 			int errorTimes = 0;// 初始化密码输错次数
 			try {
 				// 查询错误次数
@@ -86,7 +93,8 @@ public class UserServlet extends HttpServlet {
 			}
 			if (errorTimes >= 3) {
 				// 错误次数大于等于3次,不执行修改密码操作
-				out.write(new Result<User>(false, "密码已输错三次,本次已不能修改密码").toString());
+                object = JSONObject.fromObject(new Result<User>(false, "密码已输错三次,本次已不能修改密码"));
+				out.write(object.toString());
 				out.flush();
 			}else {
 				// 错误小于3次,输入正确的原密码
@@ -108,10 +116,12 @@ public class UserServlet extends HttpServlet {
 					}
 					// 重新判断错误次数是否到达3次
 					if(errorTimes >=3) {
-						out.write(new Result<User>(false, "密码已输错三次,本次已不能修改密码").toString());
+					    object = JSONObject.fromObject(new Result<User>(false, "密码已输错三次,本次已不能修改密码"));
+						out.write(object.toString());
 						out.flush();
 					}else {
-						out.write(new Result<User>(false, "原密码错误,请重新输入").toString());
+					    object = JSONObject.fromObject(new Result<User>(false, "原密码错误,请重新输入"));
+						out.write(object.toString());
 						out.flush();
 					}
 				}
@@ -122,7 +132,7 @@ public class UserServlet extends HttpServlet {
 			String card = session.getAttribute("card").toString();// 账户
 			String money = request.getParameter("money");// 存入金额			
 			try {
-				saveMoney(request,response,card,Double.parseDouble(money));
+				saveMoney(request,response,card,money);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -180,7 +190,6 @@ public class UserServlet extends HttpServlet {
 		// 从数据库中读取余额值balance
 		String balance = DaoFactory.getUserDaoInstance().showMoney(card);
 		PrintWriter out = response.getWriter();
-		System.out.println(balance);
 		out.write((new Result(true, balance)).toString());
 		out.flush();
 	}
@@ -194,12 +203,15 @@ public class UserServlet extends HttpServlet {
 	public void outMoney(HttpServletRequest request, HttpServletResponse response, String card, double money) throws Exception {
 		int result = DaoFactory.getUserDaoInstance().outMoney(card, money);
 		PrintWriter out = response.getWriter();
+
 		// 取钱结果
 		if(result == 0) {
-			out.write(new Result<User>(false, "取钱失败").toString());
+		    JSONObject object = JSONObject.fromObject(new Result<User>(false, "取钱失败"));
+			out.write(object.toString());
 			out.flush();
 		}else {
-			out.write(new Result<User>(true, "取钱成功").toString());
+            JSONObject object = JSONObject.fromObject(new Result<User>(true, "取钱成功"));
+			out.write(object.toString());
 			out.flush();
 		}
 	}
@@ -210,17 +222,25 @@ public class UserServlet extends HttpServlet {
 	 * @param money
 	 * @throws Exception
 	 */
-	public void saveMoney(HttpServletRequest request, HttpServletResponse response, String card, double money) throws Exception {
-		int result = DaoFactory.getUserDaoInstance().saveMoney(card, money);
-		PrintWriter out = response.getWriter();
-		// 存钱结果
-		if(result == 0) {
-			out.write(new Result<User>(false, "存钱失败").toString());
-			out.flush();
-		}else {
-			out.write(new Result<User>(true, "存钱成功").toString());
-			out.flush();
-		}
+	public void saveMoney(HttpServletRequest request, HttpServletResponse response, String card, String money) throws Exception {
+        PrintWriter out = response.getWriter();
+        try {
+            int result = DaoFactory.getUserDaoInstance().saveMoney(card, Double.parseDouble(money));
+            // 存钱结果
+            if (result == 0) {
+                JSONObject object = JSONObject.fromObject(new Result<User>(false, "存钱失败"));
+                out.write(object.toString());
+                out.flush();
+            } else {
+                JSONObject object = JSONObject.fromObject(new Result<User>(false, "存钱成功"));
+                out.write(object.toString());
+                out.flush();
+            }
+        } catch (Exception e){
+            JSONObject object = JSONObject.fromObject(new Result<User>(false, "出现异常"));
+            out.write(object.toString());
+            out.flush();
+        }
 	}
 	
 	/**
@@ -232,6 +252,7 @@ public class UserServlet extends HttpServlet {
 		int checkLogin = DaoFactory.getUserDaoInstance().loginCertification(card,password);
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
+		JSONObject object;
 		if (checkLogin == 0) {
 			/*
 			 * 创建session,存放卡号以及密码
@@ -240,24 +261,24 @@ public class UserServlet extends HttpServlet {
 			session.setAttribute("card",card);
 			session.setAttribute("password",password);
 			DaoFactory.getUserDaoInstance().handleFreezeTime(card, 0);//登陆成功,冻结时间归零
-			response.sendRedirect("Menus.html");//测试跳转页面
-			out.write(new Result<User>(true, "登陆成功").toString());
-			out.flush();
+            object = JSONObject.fromObject(new Result<User>(true, ""));
+            out.write(object.toString());
+            out.flush();
 		}else if(checkLogin == 1) {
 			/*
 			 * 登录失败并显示提示框
 			 * 返回至登录界面
 			 */
-			response.sendRedirect("Login.html");
-			out.write(new Result<User>(false, "密码输入错误").toString());
+            object = JSONObject.fromObject(new Result<User>(false, "密码输入错误"));
+            out.write(object.toString());
 			out.flush();
 		}else if(checkLogin == 2) {
 			/*
 			 * 输错密码三次并显示提示框
 			 * 账号冻结
 			 */
-			response.sendRedirect("Login.html");
-			out.write(new Result<User>(false, "账户已被冻结").toString());
+            object = JSONObject.fromObject(new Result<User>(false, "账户已被冻结"));
+            out.write(object.toString());
 			out.flush();
 		}
 	}
@@ -294,10 +315,12 @@ public class UserServlet extends HttpServlet {
 			session.removeAttribute("password");
 			//session保存新密码
 			session.setAttribute("password", newPassword);
-			out.write(new Result<User>(true, "密码修改成功").toString());
+			JSONObject object = JSONObject.fromObject(new Result<User>(true, "密码修改成功"));
+			out.write(object.toString());
 			out.flush();
 		}else {
-			out.write(new Result<User>(false, "密码修改失败").toString());
+		    JSONObject object = JSONObject.fromObject(new Result<User>(false, "密码修改失败"));
+			out.write(object.toString());
 			out.flush();
 		}
 	}	

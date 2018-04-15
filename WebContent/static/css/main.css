@@ -21,3 +21,18 @@
 	padding-right: 50px;
 	padding-left: 50px;
 }
+
+.div_body{
+    width: 100%;
+    display: inline-block;
+    height:300px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #CFCFCF;
+}
+.table_body{
+
+}
+.table_body tr{
+    height: 30px;
+    border: 1px;
+}

@@ -1,66 +1,354 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Your home page</title>
-	<meta charset="utf-8"> 
-	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
-	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+    <title>Your home page</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../static/js/jquery-1.10.2.min.js"></script>
+    <script src="../../static/js/jquery-form.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/main.css">
 </head>
-<body style="background:url('static/image/bg2.jpg');">
+<body style="background:url('../../static/image/bg2.jpg');">
 <div class="main">
-	<div class="top">
-		<div class="page-header">
-			<h1>Welcome!!!</h1>
-		</div>
-		<h2>Please select your operation.</h2>
-	</div>
-	<div class="main_body">
-		<div class="row" style="padding-top: 50px; height: 100%">
-			<div class="col-xs-2">
-				<h2>
-					<ul class="nav nav-pills nav-stacked" id="theTab">
-  						<li><a href="#information" data-toggle="tab">information</a></li>
-  						<li><a href="#deposit" data-toggle="tab">deposit</a></li>
-  						<li><a href="#withdrawals" data-toggle="tab">withdrawals</a></li>
-  						<li><a href="#transaction" data-toggle="tab">Transaction records</a></li>
-					</ul>
-				</h2>
-			</div>
-			<div class="col-md-10" id="main" style="background: #FFF; height: 85%">
-				<div class="tab-content">
-					<div id="information" class="tab-pane fade">
-						<div class="main_information_top">
-							<h1 style="float: left;">my information</h1>					
-							<div class="btn-group btn-group-lg" style="float: right;">							
-    							<button type="button" class="btn btn-default">update your information</button>
-    							<button type="button" class="btn btn-default">update your password</button>
-							</div>
-						</div>	
-						<div>				
-							<h3>
-								name:BeiYi<br>
-								ID:10086<br>
-								phone:17876250000<br>
-								born:GuangDong ShanTou<br>
-								balance:546531656435468
-							</h3>
-						</div>
-					</div>
-					<div id="deposit" class="tab-pane fade">
-						<h1>input your money</h1>
-					</div>
-					<div id="withdrawals" class="tab-pane fade">
-						<h1>get your money</h1>
-					</div>
-					<div id="transaction">
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="top">
+        <div class="page-header">
+            <h1>Welcome!!!</h1>
+        </div>
+        <h2>Please select your operation.</h2>
+    </div>
+    <div class="main_body">
+        <div class="row" style="padding-top: 50px; height: 100%">
+            <div class="col-xs-2">
+                <h2>
+                    <ul class="nav nav-pills nav-stacked" id="theTab">
+                        <li><a href="#information" data-toggle="tab" id="info">information</a></li>
+                        <li><a href="#deposit" data-toggle="tab">deposit</a></li>
+                        <li><a href="#withdrawals" data-toggle="tab">withdrawals</a></li>
+                        <li><a href="#transaction" data-toggle="tab" id="tran">Transaction records</a></li>
+                    </ul>
+                </h2>
+            </div>
+            <div class="col-md-10" id="main" style="background: #FFF; height: 90%">
+                <div class="tab-content">
+                    <div id="information" class="tab-pane fade">
+                        <div class="main_information_top">
+                            <h1 style="float: left;">个人信息</h1>
+                            <div class="btn-group btn-group-lg" style="float: right;">
+                                <button id="update" type="button" class="btn btn-default" data-toggle="modal" data-target="#modifyMessage">修改密码</button>
+                            </div>
+                        </div>
+                        <div>
+
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h4>
+                                    <label for="id" class="col-sm-3 control-label">账户：</label>
+                                    <span id="id"></span>
+                                    </h4>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4>
+                                        <label for="name" class="col-sm-3 control-label">用户名：</label>
+                                        <span id="name"></span>
+                                    </h4>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4>
+                                        <label for="user_id" class="col-sm-3 control-label">身份证号</label>
+                                        <span id="user_id"></span>
+                                    </h4>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4>
+                                        <label for="sex" class="col-sm-3 control-label">性别</label>
+                                        <span id="sex"></span>
+                                    </h4>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4>
+                                        <label for="age" class="col-sm-3 control-label">年龄</label>
+                                        <span id="age"></span>
+                                    </h4>
+                                </li>
+                                <li class="list-group-item">
+                                    <h4>
+                                        <label for="balance" class="col-sm-3 control-label">余额</label>
+                                        <span id="balance"></span>
+                                    </h4>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="deposit" class="tab-pane fade" style="margin: 0 auto;text-align: center">
+                        <h1>Input Your Money</h1><br>
+                        <div style="width: 40%; margin-left: 30%;">
+                            <form id="putMoney">
+                                <div>
+                                    <label for="put" class="col-sm-3 control-label">输入存款金额</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="put" name="money"
+                                               placeholder="please input your money">
+                                    </div>
+                                    <br><br>
+                                </div>
+                                <div>
+                                    <div class="col-sm-offset-3 col-sm-1">
+                                        <button id="enter_put" type="button" class="btn btn-default">enter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="withdrawals" class="tab-pane fade" style="margin: 0 auto;text-align: center">
+                        <h1>Get Your Money</h1><br>
+                        <div style="width: 40%; margin-left: 30%">
+                            <form id="getMoney">
+                                <div class="form-group">
+                                    <label for="get" class="col-sm-3 control-label">输入取款金额</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="get" name="money"
+                                               placeholder="please input your money">
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-1">
+                                        <button id="enter_get" type="button" class="btn btn-default">enter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="transaction" class="tab-pane fade" style="font-size: 20px">
+                        <table class="table table-striped" id="table_head">
+                            <colgroup>
+                                <col width="140">
+                                <col width="100">
+                                <col width="100">
+                                <col width="120">
+                                <col width="20">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>交易编号</th>
+                                <th>操作</th>
+                                <th>金额</th>
+                                <th>时间</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="div_body">
+                            <table class="table_body" style="width: 90%; margin-left: 10px;">
+                                <colgroup>
+                                    <col width="120">
+                                    <col width="100">
+                                    <col width="100">
+                                    <col width="120">
+                                </colgroup>
+                                <tbody id="table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!--模态框-->
+<div class="modal fade" id="modifyMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top: 10%">
+    <div class="modal-dialog" style="height: 200px">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">
+                        修改密码
+                    </h3>
+                </div>
+                <div style="width: 80%;margin-left: 10%" class="modal-body">
+                    <form method="post">
+                        <div>
+                            <label for="modify1" class="col-sm-4 control-label">请输入您的旧密码</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="modify1" name="password1">
+                                <br>
+                            </div>
+                            <label for="modify2" class="col-sm-4 control-label">请输入您的新密码</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="modify2" name="newPassword">
+                                <br>
+                            </div>
+                            <label for="modify3" class="col-sm-4 control-label">请确认您的新密码</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="modify3" name="sure">
+                                <br>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button id="update_pwd" type="button" class="btn btn-primary">
+                                提交更改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
+<script type="text/javascript">
+    //展示弹出层
+    $('#update').on("click", function () {
+        $('#modifyMessage').modal();
+    });
+
+    //修改密码
+    $('#update_pwd').on("click", function () {
+       var pwd1 = $('#modify1').val();
+       var pwd2 = $('#modify2').val();
+       var pwd3 = $('#modify3').val();
+       if (pwd1 === "" || pwd2 === "" || pwd3 === ""){
+           alert('密码框不能为空')
+       } else if(pwd2 === pwd3){
+           $.ajax({
+               url:'/UserServlet',
+               type:'POST',
+               data:{
+                   action:'modifyPassword',
+                   password1:pwd1,
+                   newPassword:pwd2
+               },
+               dataType:'json',
+               success:function (data) {
+                   alert(data.msg)
+               },
+               error:function () {
+                   alert('修改失败')
+               }
+           });
+           $('#modify1').val('');
+           $('#modify2').val('');
+           $('#modify3').val('');
+       } else {
+           alert('两次密码不一致')
+       }
+
+    });
+
+    //存款
+    $('#enter_put').on("click",function () {
+        var money = $('#put').val();
+        if (money === null || money === "" || money === undefined) {
+            alert('请输入金额')
+        } else {
+            $.ajax({
+                url:'/UserServlet',
+                type:'POST',
+                data:{
+                    action:'saveMoney',
+                    money:money
+                },
+                dataType:'json',
+                success:function (data) {
+                    alert(data.msg)
+                },
+                error:function () {
+                    alert('存款失败')
+                }
+            });
+            $('#put').val('');
+        }
+    });
+
+    //取款
+    $('#enter_get').on("click",function () {
+        var money = $('#get').val();
+        if (money === null || money === "" || money === undefined) {
+            alert('请输入金额')
+        } else {
+            $.ajax({
+                url:'/UserServlet',
+                type:'POST',
+                data:{
+                    action:'outMoney',
+                    money:money
+                },
+                dataType:'json',
+                success:function (data) {
+                    alert(data.msg)
+                },
+                error:function () {
+                    alert('操作失败')
+                }
+            });
+            $('#get').val("");
+        }
+    });
+
+    //初始化表单
+    $('#info').on("click", function () {
+        $.ajax({
+            url:'/UserServlet',
+            type:'post',
+            data:{
+                action:'showMessage'
+            },
+            dataType:'json',
+            success:function (data) {
+                if (data.success){
+                    $('#id').text(data.data.card);
+                    $('#name').text(data.data.username);
+                    $('#user_id').text(data.data.id);
+                    $('#sex').text(data.data.sex);
+                    $('#age').text(data.data.age);
+                    $('#balance').text(data.data.money);
+                }else{
+                    alert(data.msg);
+                }
+            },
+            error:function () {
+                alert('请求失败')
+            }
+        })
+    });
+
+    //表格填充
+    $('#tran').on("click", function () {
+        $.ajax({
+            url:'/UserServlet',
+            type:'post',
+            data:{
+                action:'showRecordSheet'
+            },
+            dataType:'json',
+            success:function (data) {
+                $("#table_body").empty("");
+                var table = $('#table_body');
+                for (var i = 0; i<data.length; i++) {
+                    table.append("<tr>");
+                    table.append("<td>" + data[i].recordNumber + "</td>");
+                    if (data[i].money > 0){
+                        table.append("<td>存款</td>");
+                    } else {
+                        table.append("<td>取款</td>");
+                    }
+                    table.append("<td>" + data[i].money + "</td>");
+                    table.append("<td>" + data[i].time + "</td>");
+                    table.append("</tr>");
+                }
+            },
+            error:function () {
+                alert('请求失败')
+            }
+        })
+    })
+</script>
 </html>
